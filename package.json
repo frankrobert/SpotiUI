@@ -1,0 +1,33 @@
+{
+    "name": "audio",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "actiontyper": "0.0.4",
+        "cors": "^2.8.4",
+        "es6-promise": "^4.1.1",
+        "express": "^4.16.2",
+        "history": "^4.7.2",
+        "isomorphic-fetch": "^2.2.1",
+        "react": "^16.1.0",
+        "react-dom": "^16.1.0",
+        "react-redux": "^5.0.6",
+        "react-router": "^4.2.0",
+        "react-router-redux": "^5.0.0-alpha.8",
+        "react-scripts": "1.0.17",
+        "react-scripts-ts": "2.8.0",
+        "redux": "^3.7.2",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.2.0",
+        "spotify-web-api-js": "^0.22.1",
+        "spotify-web-api-node": "^2.5.0"
+    },
+    "scripts": {
+        "client": "react-scripts start",
+        "server": "node server/server.js",
+        "start": "concurrently \"npm run server\" \"npm run client\"",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    }
+}
