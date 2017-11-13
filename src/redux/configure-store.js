@@ -6,6 +6,7 @@ import logger from 'redux-logger';
 
 import app from './reducers/app';
 import playlists from './reducers/playlists';
+import modal from './reducers/modal';
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory();
@@ -19,6 +20,7 @@ const store = createStore(
   combineReducers({
     app,
     playlists,
+    modal,
     router: routerReducer
   }),
   applyMiddleware(routerReduxMiddleware, thunk, logger)

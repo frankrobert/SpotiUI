@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actions from '../../redux/action-creators';
 import AddPlaylist from '../../components/AddPlaylist';
+import NewPlaylist from '../../components/NewPlaylist'
 import './nav-bar.css';
-
 
 function mapStateToProps(state) {
   const { playlists } = state;
@@ -21,6 +21,19 @@ class NavBar extends Component {
     dispatch(actions.getPlaylists('/get-user-playlists'));
   };
 
+  openModal = (modalType) => {
+    const { dispatch } = this.props;
+    console.log('HELLO');
+
+    dispatch(actions.toggleModal(true, modalType));
+  }
+
+  closeModal = () => {
+    const { dispatch } = this.props;
+    
+    dispatch(actions.toggleModal(false));
+  }
+
   addPlaylist = () => {
     const { dispatch } = this.props;
 
@@ -34,7 +47,13 @@ class NavBar extends Component {
           <NavLibrary />
           <NavPlaylist /> */}
         </section>
-        <AddPlaylist addPlaylist={this.addPlaylist} />
+        <AddPlaylist
+          onOpenModal={this.openModal}
+          onAddPlaylist={this.addPlaylist}
+        />
+        <NewPlaylist
+          onCloseModal={this.closeModal}
+        />
       </aside>
     );
   }
