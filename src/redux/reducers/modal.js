@@ -1,5 +1,5 @@
 import actionTyper from 'actiontyper';
-import { getData, updateState } from '../configure-store';
+import { updateState } from '../configure-store';
 
 const {
   MODAL_OPENED,

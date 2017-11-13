@@ -23,7 +23,6 @@ class NavBar extends Component {
 
   openModal = (modalType) => {
     const { dispatch } = this.props;
-    console.log('HELLO');
 
     dispatch(actions.toggleModal(true, modalType));
   }
@@ -34,9 +33,11 @@ class NavBar extends Component {
     dispatch(actions.toggleModal(false));
   }
 
-  addPlaylist = () => {
-    const { dispatch } = this.props;
+  createPlaylist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    this.closeModal(false);
   }
 
   render() {
@@ -52,6 +53,7 @@ class NavBar extends Component {
           onAddPlaylist={this.addPlaylist}
         />
         <NewPlaylist
+          onCreatePlaylist={this.createPlaylist}
           onCloseModal={this.closeModal}
         />
       </aside>

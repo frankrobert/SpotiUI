@@ -1,14 +1,17 @@
 import React from 'react';
 import Modal from '../Modal';
 
-const NewPlaylist = ({ onCloseModal }) => (
+const NewPlaylist = ({ onCreatePlaylist, onCloseModal }) => (
   <Modal>
-    <div>
-      <button onClick={() => onCloseModal()}>
-        <i className="fa fa-times-circle" />
-      </button>
-      Hello World
-    </div>
+    <form onSubmit={(e) => onCreatePlaylist(e)}>
+      <h2>Create Playlist</h2>
+      <div>
+        <span>Name</span>
+        <input placeholder="New Playlist" type="text" />
+      </div>
+      <button type="button" onClick={() => onCloseModal()}>Cancel</button>
+      <button type="submit">Create</button>
+    </form>
   </Modal>
 );
 
