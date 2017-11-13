@@ -16,6 +16,8 @@ const app = express()
 app.use(cors());
 
 app.get('/authorize', (req, res) => {
+  console.log('AUTHORIZING');
+  
   // Get an artist
   spotifyApi.clientCredentialsGrant()
     .then((data) => {
@@ -23,13 +25,27 @@ app.get('/authorize', (req, res) => {
       // console.log('The access token is ' + data.body['access_token']);
 
       // Save the access token so that it's used in future calls
-      res.status(200);
       spotifyApi.setAccessToken(data.body['access_token']);
-    }, (err) => {
-      res.status(500);
-      console.log('Something went wrong when retrieving an access token', err.message)
+      console.log('RECEIVED ACCESS TOKEN');
+      return res.send('Successfully authorized application');      
     })
-    .catch(console.error);
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).send(err);
+    });
+});
+
+app.get('/get-user-playlists', async (req, res) => {
+  console.log('GETTING USER PLAYLISTS');
+  let playlists;
+
+  try {
+    playlists = await spotifyApi.getUserPlaylists('12158323406'); // TODO replace user
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send(err);
+  }
+  if (playlists) return res.send(playlists.body.items);
 });
 
 app.listen(3001, () => console.log('Express Server listening on port 3001!'))

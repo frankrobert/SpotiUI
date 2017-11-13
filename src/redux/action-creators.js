@@ -1,5 +1,6 @@
-import { getAuth } from './reducers/app';
+import { getAuth, getPlaylists } from './reducers/app';
 
 export default {
-  getAuth
+  getAuth,
+  getPlaylists
 };

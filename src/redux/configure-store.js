@@ -4,7 +4,7 @@ import { routerReducer, routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import App from './reducers/app' // Or wherever you keep your reducers
+import app from './reducers/app' // Or wherever you keep your reducers
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory();
@@ -16,7 +16,7 @@ const routerReduxMiddleware = routerMiddleware(history)
 // Also apply our middleware for navigating
 const store = createStore(
   combineReducers({
-    App,
+    app,
     router: routerReducer
   }),
   applyMiddleware(routerReduxMiddleware, thunk, logger)
