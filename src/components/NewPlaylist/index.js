@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from '../Modal';
+import './new-playlist.css';
 
 class NewPlaylist extends Component {
   state = {
@@ -28,18 +29,22 @@ class NewPlaylist extends Component {
     const { description, name } = this.state;
     return (
       <Modal onMount={this.mount} onUnmount={this.unmount}>
-        <form onSubmit={(e) => onCreatePlaylist(e)}>
-          <h2>Create Playlist</h2>
-          <div>
-            <span>Name</span>
-            <input
-              id="name"
-              placeholder="New Playlist"
-              type="text"
-              onChange={this.onChange}
-              value={name}
-              maxLength="100"
-            />
+        <form className="new-playlist" onSubmit={(e) => onCreatePlaylist(e)}>
+          <h2 className="new-playlist__title" >Create Playlist</h2>
+          <div className="new-playlist__name__wrapper">
+            <span className="new-playlist__name__text">Name</span>
+            <div className="new-playlist__input__wrapper">
+              <label className="new-playlist__name__count">{name.length}/100</label>
+              <input
+                className="new-playlist__name__input"
+                id="name"
+                placeholder="New Playlist"
+                type="text"
+                onChange={this.onChange}
+                value={name}
+                maxLength="100"
+              />
+            </div>
           </div>
           <div>
             <span>Description</span>
