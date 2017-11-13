@@ -11,6 +11,18 @@ function mapStateToProps(state) {
 }
 
 class Modal extends Component {
+  componentDidMount() {
+    const { onMount } = this.props;
+
+    onMount();
+  }
+
+  componentWillUnmount() {
+    const { onUnmount } = this.props;
+
+    onUnmount();
+  }
+
   render() {
     const { isActive } = this.props;
 
@@ -22,7 +34,7 @@ class Modal extends Component {
 
     return (
       <section className="modal-wrapper">
-        <div className={className} role="dialog" />
+        <div id="mask" className={className} role="dialog" />
         <div className="modal" role="alert">
           {this.props.children}
         </div>

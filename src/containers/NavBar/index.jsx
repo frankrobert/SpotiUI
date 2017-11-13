@@ -27,6 +27,10 @@ class NavBar extends Component {
     dispatch(actions.toggleModal(true, modalType));
   }
 
+  clearModal = (modalType) => {
+    this.closeModal();
+  }
+
   closeModal = () => {
     const { dispatch } = this.props;
     
@@ -48,13 +52,11 @@ class NavBar extends Component {
           <NavLibrary />
           <NavPlaylist /> */}
         </section>
-        <AddPlaylist
-          onOpenModal={this.openModal}
-          onAddPlaylist={this.addPlaylist}
-        />
+        <AddPlaylist onOpenModal={this.openModal} />
         <NewPlaylist
           onCreatePlaylist={this.createPlaylist}
           onCloseModal={this.closeModal}
+          onClearModal={this.clearModal}
         />
       </aside>
     );
