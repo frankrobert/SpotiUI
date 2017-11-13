@@ -1,0 +1,14 @@
+.add-playlist {
+    color: #616161;
+    cursor: pointer;
+    padding: 24px;
+    transition: 0.1s ease-in-out all;
+}
+
+.add-playlist:hover {
+    color: #fff;
+}
+
+.add-playlist__text {
+    margin-left: 10px;
+}

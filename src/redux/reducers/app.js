@@ -1,12 +1,10 @@
 import actionTyper from 'actiontyper';
+import { getData, updateState } from '../configure-store';
 
 const {
   AUTH_REQUESTED,
   AUTH_SUCCEEDED,
-  AUTH_FAILED,
-  PLAYLISTS_REQUESTED,
-  PLAYLISTS_SUCCEEDED,
-  PLAYLISTS_FAILED,  
+  AUTH_FAILED
 } = actionTyper('/APP/');
 
 const initialState = {
@@ -14,13 +12,8 @@ const initialState = {
   error: {
     type: '',
     message: ''
-  },
-  playlists: []
+  }
 };
-
-const updateState = (state, newState) => Object.assign({}, state, newState);
-
-const getData = (url, options) => fetch(`http://localhost:3001${url}`, options);
 
 const authRequested = (loading) => {
   return {
@@ -53,38 +46,6 @@ const authFailed = (msg, error, loading) => {
   };
 }
 
-const playlistsRequested = (loading) => {
-  return {
-    type: PLAYLISTS_REQUESTED,
-    payload: {
-      isLoading: loading
-    }
-  };
-};
-
-const playlistsSucceeded = (playlists, loading) => {
-  return {
-    type: PLAYLISTS_SUCCEEDED,
-    payload: {
-      playlists,
-      isLoading: loading
-    }
-  };
-};
-
-const playlistsFailed = (msg, error, loading) => {
-  return {
-    type: PLAYLISTS_FAILED,
-    payload: {
-      error: {
-        type: 'PLAYLISTS',
-        message: `An error has occured: ${msg}\n${error}`
-      },
-      isLoading: loading
-    }
-  };
-}
-
 const setLoading = (state, action) => updateState(state, action.payload);
 const setError = (state, action) => updateState(state, action.payload);
 
@@ -103,31 +64,11 @@ export const getAuth = (url, options) => {
   };
 };
 
-export const getPlaylists = (url, options) => {
-  return async function (dispatch, getState) {
-    dispatch(playlistsRequested(true));
-    try {
-      let data = await getData(url, options);
-
-      if (data && data.status === 500) throw new Error('Fetch playlists Error');      
-
-      data =  await data.json();
-
-      return dispatch(playlistsSucceeded(data, false));
-    } catch (error) {
-      return dispatch(playlistsFailed('Couldn\'t correctly fetch playlists' , error, false));
-    }
-  };
-};
-
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
       case AUTH_REQUESTED: return setLoading(state, action);
       case AUTH_SUCCEEDED: return setLoading(state, action);
       case AUTH_FAILED: return setError(state, action);
-      case PLAYLISTS_REQUESTED: return setLoading(state, action);
-      case PLAYLISTS_SUCCEEDED: return setLoading(state, action);
-      case PLAYLISTS_FAILED: return setError(state, action);
       default: return state;
   }
 }

@@ -4,7 +4,8 @@ import { routerReducer, routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import app from './reducers/app' // Or wherever you keep your reducers
+import app from './reducers/app';
+import playlists from './reducers/playlists';
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory();
@@ -17,9 +18,14 @@ const routerReduxMiddleware = routerMiddleware(history)
 const store = createStore(
   combineReducers({
     app,
+    playlists,
     router: routerReducer
   }),
   applyMiddleware(routerReduxMiddleware, thunk, logger)
 );
+
+
+export const updateState = (state, newState) => Object.assign({}, state, newState);
+export const getData = (url, options) => fetch(`http://localhost:3001${url}`, options);
 
 export default store;

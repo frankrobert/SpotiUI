@@ -1,5 +1,5 @@
 import React from 'react';
-import PlaylistItem from '../PlaylistItem/playlist-item';
+import PlaylistItem from '../PlaylistItem';
 import './playlist-list.css';
 
 const PlaylistList = ({ playlists }) => {

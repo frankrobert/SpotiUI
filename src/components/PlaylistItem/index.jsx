@@ -6,7 +6,7 @@ const PlaylistItem = ({ playlist }) => {
 
   return (
     <li className="playlist-item">
-      <img role="presentation" className="playlist-item__background" src={background.url} />
+      <img alt="Playlist background" className="playlist-item__background" src={background.url} />
       <div className="playlist-item__content">
         <a href={playlist.href}>
           <h1>{playlist.name}</h1>
