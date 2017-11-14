@@ -32,9 +32,9 @@ class NewPlaylist extends Component {
         <form className="new-playlist" onSubmit={(e) => onCreatePlaylist(e)}>
           <h2 className="new-playlist__title" >Create Playlist</h2>
           <div className="new-playlist__name__wrapper">
-            <span className="new-playlist__name__text">Name</span>
+            <span className="new-playlist__text">Name</span>
             <div className="new-playlist__input__wrapper">
-              <label className="new-playlist__name__count">{name.length}/100</label>
+              <label className="new-playlist__count">{name.length}/100</label>
               <input
                 className="new-playlist__name__input"
                 id="name"
@@ -46,16 +46,24 @@ class NewPlaylist extends Component {
               />
             </div>
           </div>
-          <div>
-            <span>Description</span>
-            <input
-              id="description"
-              placeholder="Give your playlist a catchy description."
-              onChange={this.onChange}
-              value={description}
-              type="text"
-              maxLength="300"
-            />
+          <div className="new-playlist-section">
+            <div className="new-playlist__image-wrapper">
+              <span className="new-playlist__text">Image</span>
+              <button>Choose Image</button>
+            </div>
+            <div className="new-playlist__description-wrapper">
+              <label className="new-playlist__count">{description.length}/300</label>
+              <span className="new-playlist__text">Description</span>
+              <input
+                id="description"
+                className="new-playlist__description-input"
+                placeholder="Give your playlist a catchy description."
+                onChange={this.onChange}
+                value={description}
+                type="text"
+                maxLength="300"
+              />
+            </div>
           </div>
           <button type="button" onClick={() => onCloseModal()}>Cancel</button>
           <button type="submit">Create</button>

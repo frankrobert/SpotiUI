@@ -5,6 +5,7 @@
 
 .new-playlist__title {
     background-color: #363636;
+    border-bottom: 1px solid #424242;
     color: #f5f5f5;
     display: flex;
     justify-content: center;
@@ -16,10 +17,10 @@
 
 .new-playlist__name__wrapper {
     padding: 0 10px;
-    margin-bottom: 50px;
+    margin-bottom: 15px;
 }
 
-.new-playlist__name__text {
+.new-playlist__text {
     display: block;
     color: #b2b2b2;
     font-size: 14px;
@@ -30,8 +31,8 @@
 .new-playlist__name__input {
     border: 0;
     height: 30px;
-    padding: 0;
     padding-left: 10px;
+    padding-right: 75px;
     width: calc(100% - 10px);
 }
 
@@ -40,7 +41,7 @@
     align-items: center;
 }
 
-.new-playlist__name__count {
+.new-playlist__count {
     background-color: #4986d5;
     border-radius: 10px;
     color: #fff;
@@ -50,4 +51,24 @@
     right: 20px;
     text-align: center;
     width: 40px;
+}
+
+.new-playlist-section {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.new-playlist__image-wrapper {
+    width: 33%;
+}
+
+.new-playlist__description-wrapper {
+    width: 66%;
+}
+
+.new-playlist__description-input {
+    height: 200px;
+    width: 100%;
 }

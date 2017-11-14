@@ -2,6 +2,8 @@ import actionTyper from 'actiontyper';
 import { getData, updateState } from '../configure-store';
 
 const {
+  APP_OFFLINE,
+  APP_ONLINE,
   AUTH_REQUESTED,
   AUTH_SUCCEEDED,
   AUTH_FAILED
@@ -9,6 +11,7 @@ const {
 
 const initialState = {
   isLoading: false,
+  isOnline: '',
   error: {
     type: '',
     message: ''
@@ -45,6 +48,8 @@ const authFailed = (msg, error, loading) => {
     }
   };
 }
+
+
 
 const setLoading = (state, action) => updateState(state, action.payload);
 const setError = (state, action) => updateState(state, action.payload);

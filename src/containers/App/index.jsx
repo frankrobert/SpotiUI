@@ -18,6 +18,11 @@ class App extends Component {
     dispatch(actions.getAuth('/authorize'));
   }
 
+  componentDidMount() {
+    window.addEventListener('online', console.log);
+    window.addEventListener('offline', console.log);
+  }
+
   render() {
     return (
       <div className="app">
