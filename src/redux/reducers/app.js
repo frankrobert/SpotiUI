@@ -11,7 +11,7 @@ const {
 
 const initialState = {
   isLoading: false,
-  isOnline: '',
+  isOnline: true,
   error: {
     type: '',
     message: ''
@@ -47,15 +47,13 @@ const authFailed = (msg, error, loading) => {
       isLoading: loading
     }
   };
-}
-
-
+};
 
 const setLoading = (state, action) => updateState(state, action.payload);
 const setError = (state, action) => updateState(state, action.payload);
 
 export const getAuth = (url, options) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch) {
     dispatch(authRequested(true));
     try { 
       const data = await getData(url, options);
@@ -71,6 +69,8 @@ export const getAuth = (url, options) => {
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
+      case APP_OFFLINE: return Object.assign({}, state, { isOnline: action.payload });
+      case APP_ONLINE: return Object.assign({}, state, { isOnline: action.payload });
       case AUTH_REQUESTED: return setLoading(state, action);
       case AUTH_SUCCEEDED: return setLoading(state, action);
       case AUTH_FAILED: return setError(state, action);

@@ -57,27 +57,54 @@ const playlistsFailed = (msg, error, loading) => {
       isLoading: loading
     }
   };
-}
+};
 
-export const newPlaylistDataCleared = () => {
+const addPlaylistRequested = (loading) => {
+  return {
+    type: ADD_PLAYLIST_REQUESTED,
+    payload: {
+      isLoading: loading
+    }
+  };
+};
+
+const addPlaylistSucceeded = (loading) => {
+  return {
+    type: ADD_PLAYLIST_SUCCEEDED,
+    payload: {
+      isLoading: loading
+    }
+  };
+};
+
+const addPlaylistFailed = (msg, error, loading) => {
+  return {
+    type: ADD_PLAYLIST_FAILED,
+    payload: {
+      error: {
+        type: 'ADD_PLAYLIST',
+        message: `An error has occured: ${msg}\n${error}`
+      },
+      isLoading: loading
+    }
+  };
+};
+
+export const newPlaylistDataCleared = (newPlaylistData) => {
   return {
     type: NEW_PLAYLIST_DATA_CLEARED,
     payload: {
-      newPlaylist: {
-        name: '',
-        description: '',
-        image: ''
-      }
+      newPlaylist: { ...newPlaylistData }
     }
   };
-}
+};
 
 export const newPlaylistDataLoaded = () => {
   return {
     type: NEW_PLAYLIST_DATA_CLEARED,
     payload: {}
   };
-}
+};
 
 export const newPlaylistDataSaved = (newPlaylistData) => {
   return {
@@ -86,7 +113,7 @@ export const newPlaylistDataSaved = (newPlaylistData) => {
       newPlaylist: { ...newPlaylistData }
     }
   };
-}
+};
 
 const saveData = (state, action) => updateState(state, action.payload);
 const setLoading = (state, action) => updateState(state, action.payload);
@@ -105,6 +132,19 @@ export const getPlaylists = (url, options) => {
       return dispatch(playlistsSucceeded(data, false));
     } catch (error) {
       return dispatch(playlistsFailed('Couldn\'t correctly fetch playlists' , error, false));
+    }
+  };
+};
+
+export const addNewPlaylist = (url, options) => {
+  return async function (dispatch) {
+    dispatch(addPlaylistRequested(true));
+    try {
+      await getData(url, options);
+
+      return dispatch(addPlaylistSucceeded(false));
+    } catch (error) {
+      return dispatch(addPlaylistFailed('Couldn\'t correctly add new playlist' , error, false));
     }
   };
 };

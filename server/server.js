@@ -11,9 +11,10 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri : 'localhost:3000'
 });
 
-const app = express()
+const app = express();
 
 app.use(cors());
+app.use(express.bodyParser());
 
 app.get('/authorize', (req, res) => {
   console.log('AUTHORIZING');
@@ -48,4 +49,18 @@ app.get('/get-user-playlists', async (req, res) => {
   if (playlists) return res.send(playlists.body.items);
 });
 
-app.listen(3001, () => console.log('Express Server listening on port 3001!'))
+app.post('/add-new-playlist', async (req, res) => {
+  console.log('REQ BODy', req.body);
+  const { name } = req.body;
+  console.log('ADDING NEW PLAYLIST');
+  try {
+    const newPlaylist = await spotifyApi.createPlaylist('12158323406', name);
+
+    return res.status(200).send(newPlaylist);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send(err);
+  }
+});
+
+app.listen(3001, () => console.log('Express Server listening on port 3001!'));

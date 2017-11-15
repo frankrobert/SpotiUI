@@ -3,7 +3,8 @@ import {
   getPlaylists,
   newPlaylistDataCleared,
   newPlaylistDataSaved,
-  newPlaylistDataLoaded
+  newPlaylistDataLoaded,
+  addNewPlaylist
 } from './reducers/playlists';
 import { toggleModal } from './reducers/modal';
 
@@ -11,6 +12,7 @@ export default {
   getAuth,
   getPlaylists,
   toggleModal,
+  addNewPlaylist,
   newPlaylistDataCleared,
   newPlaylistDataSaved,
   newPlaylistDataLoaded
