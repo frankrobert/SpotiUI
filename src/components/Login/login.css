@@ -1,0 +1,24 @@
+.login-wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 66%;
+}
+
+.login-button {
+  background-color: #24b855;
+  border: none;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-left: 20px;
+  padding: 11px 46px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.login-button:hover {
+  background-color: #26d660;
+  transform: scale(1.04, 1.04);
+}

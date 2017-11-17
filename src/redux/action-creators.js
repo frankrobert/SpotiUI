@@ -1,19 +1,9 @@
-import { getAuth } from './reducers/app';
-import {
-  getPlaylists,
-  newPlaylistDataCleared,
-  newPlaylistDataSaved,
-  newPlaylistDataLoaded,
-  addNewPlaylist
-} from './reducers/playlists';
-import { toggleModal } from './reducers/modal';
+import * as APP from './reducers/app';
+import * as PLAYLISTS from './reducers/playlists';
+import * as MODAL from './reducers/modal';
 
 export default {
-  getAuth,
-  getPlaylists,
-  toggleModal,
-  addNewPlaylist,
-  newPlaylistDataCleared,
-  newPlaylistDataSaved,
-  newPlaylistDataLoaded
+  ...APP,
+  ...PLAYLISTS,
+  ...MODAL
 };

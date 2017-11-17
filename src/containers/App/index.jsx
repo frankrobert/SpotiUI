@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import actions from '../../redux/action-creators';
+// import actions from '../../redux/action-creators';
 import './app.css';
 
 function mapStateToProps(state) {
@@ -12,15 +12,17 @@ function mapStateToProps(state) {
 }
 
 class App extends Component {
-  componentWillMount() {
-    const { dispatch } = this.props;
+  // componentWillMount() {
+    // const { dispatch } = this.props;
 
-    dispatch(actions.getAuth('/authorize'));
-  }
+    // dispatch(actions.getAuth('/authorize'));
+  // }
 
   componentDidMount() {
     window.addEventListener('online', console.log);
     window.addEventListener('offline', console.log);
+    console.log('ROUTING USER TO LOG IN');
+    window.location = '/login';
   }
 
   render() {

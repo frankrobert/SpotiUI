@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import qs from 'qs';
 import actions from '../../redux/action-creators';
 import AddPlaylist from '../../components/AddPlaylist';
 import NewPlaylist from '../../components/NewPlaylist/index'
