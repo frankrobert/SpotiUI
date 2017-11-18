@@ -12,7 +12,7 @@ import modal from './reducers/modal';
 export const history = createHistory();
 
 // Build the middleware for intercepting and dispatching navigation actions
-const routerReduxMiddleware = routerMiddleware(history)
+const routerReduxMiddleware = routerMiddleware(history);
 
 // Add the reducer to your store on the `router` key
 // Also apply our middleware for navigating

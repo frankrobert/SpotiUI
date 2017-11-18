@@ -1,15 +1,12 @@
-require('es6-promise/auto');
-require('isomorphic-fetch');
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const qs = require('qs');
-const rp = require('request-promise');
-const get = require('lodash/get');
-const crypto = require('crypto');
-
-import store from '../redux/configure-store';
-import actions from '../redux/action-creators';
+import 'es6-promise/auto';
+import 'isomorphic-fetch';
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import qs from 'qs';
+import rp from 'request-promise';
+import get from 'lodash/get';
+import crypto from 'crypto';
 // const SpotifyWebApi = require('spotify-web-api-node');
 
 // credentials are optional
@@ -35,28 +32,20 @@ app.get('/login-user', (_, res) => {
     state
   };
 
-  console.log('STATE hash', state);
-  store.dispatch(actions.authRequested(true));
   res.cookie(stateKey, state);
 
-  // your application requests authorization
   res.redirect(`https://accounts.spotify.com/authorize?${qs.stringify(options)}`);
 });
 
 
 app.get('/callback', async (req, res) => {
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-  console.log('CALLBACK');
   const code = get(req, 'query.code');
   const state = get(req, 'query.state');
   const storedState = get(req, `cookies[${stateKey}]`);
 
-  console.log(storedState, stateKey, state);
-
   if (!state || state !== storedState) {
     const error = { error: 'state_mismatch' };
-    store.dispatch(actions.authFailed('State key mismatched', error, false));
+
     return res.redirect(`/#${qs.stringify(error)}`);
   }
   res.clearCookie(stateKey);
@@ -83,29 +72,30 @@ app.get('/callback', async (req, res) => {
   }
 
   const access_token = get(body, 'access_token');
-  // const refresh_token = get(body, 'refresh_token');
+  const refresh_token = get(body, 'refresh_token');
+
+  res.redirect(`http://localhost:3000/user/${access_token}/${refresh_token}`);
+});
+
+app.get('/user-data', async (req, res) => {
+  const access_token = get(req, 'query.access_token');
   const opts = {
     url: 'https://api.spotify.com/v1/me',
     headers: { 'Authorization': `Bearer ${access_token}` },
     json: true
   };
-  let response;
+  let userData;
   // use the access token to access the Spotify Web API
   try {
-    response = await rp.get(opts);
-    store.dispatch(actions.setUserData(response));
-    store.dispatch(actions.authSucceeded(false));
+    userData = await rp.get(opts);
+    // store.dispatch(actions.setUserData(response));
+    // store.dispatch(actions.authSucceeded(false));
   } catch (err) {
-    store.dispatch(actions.authFailed('Something went wrong: ', err, false));
+    // store.dispatch(actions.authFailed('Something went wrong: ', err, false));
     return console.error(err);
   }
 
-  // we can also pass the token to the browser to make requests from there
-  // res.redirect('/#' +
-  //   qs.stringify({
-  //     access_token,
-  //     refresh_token
-  //   }));
+  res.status(200).send(userData);
 });
 
 app.get('/refresh_token', async (req, res) => {
@@ -131,16 +121,23 @@ app.get('/refresh_token', async (req, res) => {
 });
 
 app.get('/get-user-playlists', async (req, res) => {
-  console.log('GETTING USER PLAYLISTS');
+  const access_token = get(req, 'query.access_token');
+  const options = {
+    url: 'https://api.spotify.com/v1/me/playlists',
+    headers: { 'Authorization': `Bearer ${access_token}` },
+    limit: 50,
+    json: true
+  };
   let playlists;
 
   try {
-    playlists = await spotifyApi.getUserPlaylists('12158323406'); // TODO replace user
+    playlists = await rp.get(options);
   } catch (err) {
     console.error(err);
     return res.status(500).send(err);
   }
-  if (playlists) return res.send(playlists.body.items);
+
+  return res.send(playlists);
 });
 
 app.post('/add-new-playlist', async (req, res) => {

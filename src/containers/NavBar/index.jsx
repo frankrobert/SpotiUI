@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actions from '../../redux/action-creators';
 import AddPlaylist from '../../components/AddPlaylist';
-import NewPlaylist from '../../components/NewPlaylist/index'
+import NewPlaylist from '../../components/NewPlaylist';
+import NavPlaylist from '../../components/NavPlaylist';
 import './nav-bar.css';
 
 function mapStateToProps(state) {
-  const { playlists } = state;
+  const { app, playlists } = state;
   return {
+    accessToken: app.accessToken,
+    refreshToken: app.refreshToken,
     error: playlists.error,
     isLoading: playlists.isLoading,
     playlists: playlists.playlists,
@@ -17,9 +20,9 @@ function mapStateToProps(state) {
 
 class NavBar extends Component {
   getPlaylists = () => {
-    const { dispatch } = this.props;
+    const { accessToken, dispatch } = this.props;
 
-    dispatch(actions.getPlaylists('/get-user-playlists'));
+    dispatch(actions.getPlaylists(`/get-user-playlists?access_token=${accessToken}`));
   };
 
   openModal = (modalType) => {
@@ -71,13 +74,21 @@ class NavBar extends Component {
   };
 
   render() {
-    const { newPlaylist } = this.props;
+    const { accessToken, refreshToken, newPlaylist, playlists } = this.props;
+
+    if (!accessToken || !refreshToken) return (
+      <aside className="nav-bar" />
+    );
+
     return (
       <aside className="nav-bar">
         <section className="nav-bar-main">
-          {/* <NavGeneral />
-          <NavLibrary />
-          <NavPlaylist /> */}
+          {/*<NavGeneral />*/}
+          {/*<NavLibrary />*/}
+          <NavPlaylist
+            getPlaylists={this.getPlaylists}
+            playlists={playlists}
+          />
         </section>
         <AddPlaylist onOpenModal={this.openModal} />
         <NewPlaylist

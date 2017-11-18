@@ -4,7 +4,7 @@ import { updateState } from '../configure-store';
 const {
   MODAL_OPENED,
   MODAL_CLOSED
-} = actionTyper('/APP/');
+} = actionTyper('/MODAL/');
 
 const initialState = {
   isActive: false,

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import actions from '../../redux/action-creators';
 import './app.css';
 
 function mapStateToProps(state) {
   const { app } = state;
   return {
+    accessToken: app.accessToken,
+    refreshToken: app.refreshToken,
     error: app.error,
-    isLoading: app.isLoading
+    isLoading: app.isLoading,
+    userData: app.userData
   };
 }
 
@@ -19,10 +21,12 @@ class App extends Component {
   // }
 
   componentDidMount() {
+    const { accessToken, refreshToken } = this.props;
+
     window.addEventListener('online', console.log);
     window.addEventListener('offline', console.log);
-    console.log('ROUTING USER TO LOG IN');
-    window.location = '/login';
+
+    if (!accessToken || !refreshToken) window.location.href = '/login';
   }
 
   render() {
