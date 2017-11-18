@@ -7,7 +7,6 @@ import qs from 'qs';
 import rp from 'request-promise';
 import get from 'lodash/get';
 import crypto from 'crypto';
-// const SpotifyWebApi = require('spotify-web-api-node');
 
 // credentials are optional
 const client_id = 'b78451c164e446f5b15805ba2eff0936';
@@ -145,7 +144,8 @@ app.post('/add-new-playlist', async (req, res) => {
   const { name } = req.body;
   console.log('ADDING NEW PLAYLIST');
   try {
-    const newPlaylist = await spotifyApi.createPlaylist('12158323406', name);
+    // TODO REPLACE THIS
+    // const newPlaylist = await spotifyApi.createPlaylist('12158323406', name);
 
     return res.status(200).send(newPlaylist);
   } catch (err) {
