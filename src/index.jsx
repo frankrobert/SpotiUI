@@ -20,7 +20,10 @@ ReactDOM.render(
         <NavBar />
         <Route exact path="/" component={App} />
         <Route path="/login" component={Login} />
+        {/*<Route path="/browse" component={Browser} />*/}
+        {/*<Route path="/radio" component={Radio} />*/}
         <Route path="/user/:accessToken/:refreshToken" component={User} />
+        {/*<Route path="playlist/:id" component={PlaylistPage} />*/}
       </div>
     </ConnectedRouter>
   </Provider>,
