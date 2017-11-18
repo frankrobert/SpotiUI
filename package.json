@@ -119,6 +119,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1"
+    "babel-preset-env": "^1.6.1",
+    "concurrently": "^3.5.0"
   }
 }
