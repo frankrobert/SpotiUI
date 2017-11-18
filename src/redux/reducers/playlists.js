@@ -20,6 +20,7 @@ const initialState = {
     message: ''
   },
   playlists: [],
+  savedPlaylist: {},
   newPlaylist: {
     name: '',
     image: '',
@@ -68,10 +69,11 @@ const addPlaylistRequested = (loading) => {
   };
 };
 
-const addPlaylistSucceeded = (loading) => {
+const addPlaylistSucceeded = (newPlaylist, loading) => {
   return {
     type: ADD_PLAYLIST_SUCCEEDED,
     payload: {
+      savedPlaylist: { ...newPlaylist },
       isLoading: loading
     }
   };
@@ -119,6 +121,15 @@ const saveData = (state, action) => updateState(state, action.payload);
 const setLoading = (state, action) => updateState(state, action.payload);
 const setError = (state, action) => updateState(state, action.payload);
 
+const addPlaylist = (state, action) => {
+  const currentPlaylists = state.playlists.items;
+  const newPlaylists = [action.payload.savedPlaylist, ...currentPlaylists];
+
+  return Object.assign({}, state, {
+    playlists: { items: newPlaylists }
+  });
+};
+
 export const getPlaylists = (url, options) => {
   return async function (dispatch, getState) {
     dispatch(playlistsRequested(true));
@@ -139,10 +150,16 @@ export const getPlaylists = (url, options) => {
 export const addNewPlaylist = (url, options) => {
   return async function (dispatch) {
     dispatch(addPlaylistRequested(true));
-    try {
-      await getData(url, options);
+    let data;
 
-      return dispatch(addPlaylistSucceeded(false));
+    try {
+      data = await getData(url, options);
+
+      if (data.error) throw new Error(data.error);
+
+      data = await data.json();
+
+      return dispatch(addPlaylistSucceeded(data, false));
     } catch (error) {
       return dispatch(addPlaylistFailed('Couldn\'t correctly add new playlist' , error, false));
     }
@@ -155,7 +172,7 @@ export default function playlistsReducer(state = initialState, action) {
       case GET_PLAYLISTS_SUCCEEDED: return setLoading(state, action);
       case GET_PLAYLISTS_FAILED: return setError(state, action);
       case ADD_PLAYLIST_REQUESTED: return setLoading(state, action);
-      case ADD_PLAYLIST_SUCCEEDED: return setLoading(state, action);
+      case ADD_PLAYLIST_SUCCEEDED: return addPlaylist(state, action);
       case ADD_PLAYLIST_FAILED: return setError(state, action);
       case NEW_PLAYLIST_DATA_SAVED: return saveData(state, action);
       case NEW_PLAYLIST_DATA_LOADED: return saveData(state, action);

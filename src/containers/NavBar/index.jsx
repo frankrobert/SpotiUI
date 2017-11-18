@@ -11,6 +11,7 @@ function mapStateToProps(state) {
   return {
     accessToken: app.accessToken,
     refreshToken: app.refreshToken,
+    userData: app.userData,
     error: playlists.error,
     isLoading: playlists.isLoading,
     playlists: playlists.playlists,
@@ -38,16 +39,19 @@ class NavBar extends Component {
   };
 
   createPlaylist = (e, playlistData) => {
-    const { dispatch } = this.props;
+    const { accessToken, dispatch, userData } = this.props;
     const options = {
       method: 'POST',
-      body: JSON.stringify(playlistData)
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
+        ...playlistData,
+        access_token: accessToken,
+        user_id: userData.id
+      })
     };
 
     e.preventDefault();
     e.stopPropagation();
-
-    console.log('OPTIONS', options);
 
     dispatch(actions.addNewPlaylist('/add-new-playlist', options));
     this.closeModal();

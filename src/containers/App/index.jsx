@@ -14,17 +14,11 @@ function mapStateToProps(state) {
 }
 
 class App extends Component {
-  // componentWillMount() {
-    // const { dispatch } = this.props;
-
-    // dispatch(actions.getAuth('/authorize'));
-  // }
-
   componentDidMount() {
     const { accessToken, refreshToken } = this.props;
 
-    window.addEventListener('online', console.log);
-    window.addEventListener('offline', console.log);
+    window.addEventListener('online', console.warn);
+    window.addEventListener('offline', console.warn);
 
     if (!accessToken || !refreshToken) window.location.href = '/login';
   }

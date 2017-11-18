@@ -8,7 +8,6 @@ import rp from 'request-promise';
 import get from 'lodash/get';
 import crypto from 'crypto';
 
-// credentials are optional
 const client_id = 'b78451c164e446f5b15805ba2eff0936';
 const client_secret = 'fa60b663753f4299827a851ab0eda37e';
 const redirect_uri ='http://localhost:3001/callback';
@@ -21,7 +20,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.get('/login-user', (_, res) => {
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email playlist-modify-public';
   const state = crypto.randomBytes(16).toString('hex');
   const options = {
     response_type: 'code',
@@ -84,21 +83,17 @@ app.get('/user-data', async (req, res) => {
     json: true
   };
   let userData;
-  // use the access token to access the Spotify Web API
   try {
     userData = await rp.get(opts);
-    // store.dispatch(actions.setUserData(response));
-    // store.dispatch(actions.authSucceeded(false));
   } catch (err) {
-    // store.dispatch(actions.authFailed('Something went wrong: ', err, false));
-    return console.error(err);
+    console.error(err);
+    return res.status(err.statusCode).send(err);
   }
 
   res.status(200).send(userData);
 });
 
 app.get('/refresh_token', async (req, res) => {
-  // requesting access token from refresh token
   const refresh_token = get(req, 'query.refresh_token');
   const options = {
     url: 'https://accounts.spotify.com/api/token',
@@ -112,11 +107,12 @@ app.get('/refresh_token', async (req, res) => {
     body = await rp.post(options);
   } catch (err) {
     console.error(err);
+    return res.status(err.statusCode).send(err);
   }
 
   const access_token = get(body, 'access_token');
 
-  res.send({ access_token });
+  return res.status(200).send({ access_token });
 });
 
 app.get('/get-user-playlists', async (req, res) => {
@@ -124,7 +120,9 @@ app.get('/get-user-playlists', async (req, res) => {
   const options = {
     url: 'https://api.spotify.com/v1/me/playlists',
     headers: { 'Authorization': `Bearer ${access_token}` },
-    limit: 50,
+    qs: {
+      limit: 50
+    },
     json: true
   };
   let playlists;
@@ -133,24 +131,34 @@ app.get('/get-user-playlists', async (req, res) => {
     playlists = await rp.get(options);
   } catch (err) {
     console.error(err);
-    return res.status(500).send(err);
+    return res.status(err.statusCode).send(err);
   }
 
   return res.send(playlists);
 });
 
 app.post('/add-new-playlist', async (req, res) => {
-  console.log('REQ BODY', req.body);
-  const { name } = req.body;
-  console.log('ADDING NEW PLAYLIST');
+  const { access_token, description, name, user_id } = req.body;
+  const options = {
+    url: `https://api.spotify.com/v1/users/${user_id}/playlists`,
+    headers: {
+      'Authorization': `Bearer ${access_token}`,
+      'Content-Type': 'application/json'
+    },
+    body: {
+      name,
+      description,
+    },
+    json: true
+  };
+  let newPlaylist;
   try {
-    // TODO REPLACE THIS
-    // const newPlaylist = await spotifyApi.createPlaylist('12158323406', name);
+    newPlaylist = await rp.post(options);
 
     return res.status(200).send(newPlaylist);
   } catch (err) {
     console.error(err);
-    return res.status(500).send(err);
+    return res.status(err.statusCode).send(err);
   }
 });
 

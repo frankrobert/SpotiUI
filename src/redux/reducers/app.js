@@ -49,8 +49,6 @@ export const getUserData = (url) => {
       userData = await getData(url);
       userData = await userData.json();
 
-      console.log(userData);
-
       dispatch(setUserData(userData));
     } catch (err) {
       console.error(err);

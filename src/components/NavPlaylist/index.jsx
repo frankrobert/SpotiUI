@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
 import PlaylistItem from '../PlaylistItem';
 import './nav-playlist.css';
 
@@ -20,7 +21,7 @@ class NavPlaylist extends Component {
     return (
       <ul className="nav-playlist-list">
         <span className="nav-playlist__text">Playlists</span>
-        {items.map(playlist => <PlaylistItem key={playlist.id} playlist={playlist}/>)}
+        {map(items, playlist => <PlaylistItem key={playlist.id} playlist={playlist}/>)}
       </ul>
     );
   }
