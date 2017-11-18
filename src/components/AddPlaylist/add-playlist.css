@@ -1,8 +1,11 @@
 .add-playlist {
+    align-self: flex-end;
+    border-top: 1px solid #424242;
     color: #616161;
     cursor: pointer;
     padding: 24px;
     transition: 0.1s ease-in-out all;
+    width: 100%;
 }
 
 .add-playlist:hover {

@@ -11,7 +11,7 @@ const {
   NEW_PLAYLIST_DATA_SAVED,
   NEW_PLAYLIST_DATA_LOADED,
   NEW_PLAYLIST_DATA_CLEARED
-} = actionTyper('/APP/');
+} = actionTyper('/PLAYLIST/');
 
 const initialState = {
   isLoading: false,

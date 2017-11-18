@@ -1,0 +1,12 @@
+.nav-playlist-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.nav-playlist__text {
+    color: #616161;
+    font-size: 12px;
+    letter-spacing: 1px;
+    width: 100%;
+}

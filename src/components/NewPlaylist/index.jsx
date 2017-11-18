@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from '../Modal';
+import Modal from '../Modal/index';
 import './new-playlist.css';
 
 class NewPlaylist extends Component {

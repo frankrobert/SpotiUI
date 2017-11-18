@@ -1,8 +1,12 @@
 import actionTyper from 'actiontyper';
-import { updateState } from '../configure-store';
+import { getData, updateState } from '../configure-store';
 
 const {
-  SET_USER_DATA,
+  USER_DATA_REQUESTED,
+  USER_DATA_SUCCEEDED,
+  USER_DATA_FAILED,
+  SET_ACCESS_TOKEN,
+  SET_REFRESH_TOKEN,
   APP_OFFLINE,
   APP_ONLINE,
   AUTH_REQUESTED,
@@ -13,6 +17,8 @@ const {
 const initialState = {
   isLoading: false,
   isOnline: true,
+  accessToken: '',
+  refreshToken: '',
   error: {
     type: '',
     message: ''
@@ -20,9 +26,56 @@ const initialState = {
   userData: {}
 };
 
+export const setAccessToken = (token) => {
+  return {
+    type: SET_ACCESS_TOKEN,
+    payload: token
+  };
+};
+
+export const setRefreshToken = (token) => {
+  return {
+    type: SET_REFRESH_TOKEN,
+    payload: token
+  };
+};
+
+export const getUserData = (url) => {
+  return async (dispatch) => {
+    let userData;
+
+    dispatch(requestUserData());
+    try {
+      userData = await getData(url);
+      userData = await userData.json();
+
+      console.log(userData);
+
+      dispatch(setUserData(userData));
+    } catch (err) {
+      console.error(err);
+      dispatch(userDataFailed());
+    }
+  }
+};
+
+const userDataFailed = () => {
+  return {
+    type: USER_DATA_FAILED,
+    payload: {}
+  };
+};
+
+const requestUserData = () => {
+  return {
+    type: USER_DATA_REQUESTED,
+    payload: {}
+  };
+};
+
 export const setUserData = (data) => {
   return {
-    type: SET_USER_DATA,
+    type: USER_DATA_SUCCEEDED,
     payload: {
       userData: { ...data }
     }
@@ -68,9 +121,13 @@ export default function appReducer(state = initialState, action) {
       case APP_OFFLINE: return Object.assign({}, state, { isOnline: action.payload });
       case APP_ONLINE: return Object.assign({}, state, { isOnline: action.payload });
       case AUTH_REQUESTED: return setLoading(state, action);
-      case AUTH_SUCCEEDED: return setLoading(state, action);
-      case SET_USER_DATA: return setLoading(state, action);
       case AUTH_FAILED: return setError(state, action);
+      case AUTH_SUCCEEDED: return setLoading(state, action);
+      case USER_DATA_SUCCEEDED: return setLoading(state, action);
+      case USER_DATA_FAILED: return setLoading(state, action);
+      case USER_DATA_REQUESTED: return setLoading(state, action);
+      case SET_ACCESS_TOKEN: return Object.assign({}, state, { accessToken: action.payload });
+      case SET_REFRESH_TOKEN: return Object.assign({}, state, { refreshToken: action.payload });
       default: return state;
   }
 }
