@@ -5,9 +5,9 @@
 > React, Redux, React-Router, Express
 
 ## Start
->  install node v8.9.0 or `nvm use`
->  `npm i`
->  `npm start`
+*  install node v8.9.0 or `nvm use`
+*  `npm i`
+*  `npm start`
 
 ## Motivation
 I wanted to practice CSS, Express as well as try out new ways to organize Redux actions and reducers.
@@ -19,5 +19,5 @@ I wanted to practice CSS, Express as well as try out new ways to organize Redux 
   * Browser []
   * Radio
 * Auth [x]
-*Get User Info [x]
+* Get User Info [x]
 * Everything else... []
