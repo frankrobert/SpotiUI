@@ -18,11 +18,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-const scope = `
-user-read-private
-user-read-email
-playlist-modify-public
-ugc-image-upload`;
+const scope = 'user-read-private user-read-email playlist-modify-public ugc-image-upload';
 
 app.get('/login-user', (_, res) => {
   const state = crypto.randomBytes(16).toString('hex');
